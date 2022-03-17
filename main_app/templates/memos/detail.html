@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Memo Details</h1>
+
+<h3>{{ memo.title }}</h3>
+
+<a href="{% url 'memos_update' memo.id %}">Edit</a>
+<a href="{% url 'memos_delete' memo.id %}">Delete</a>
+
+{% endblock %}

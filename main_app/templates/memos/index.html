@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Your Memos</h1>
+<h3>Hello {{ user }} </h3>
+
+<a href="{% url 'memos_create' %}">Add a Memo</a>
+
+{% for memo in memos %}
+
+<div>
+    <a href="{% url 'memos_detail' memo.id %}">{{ memo.title }}</a>
+    <a href="{% url 'memos_update' memo.id %}">Edit</a>
+    <a href="{% url 'memos_delete' memo.id %}">Delete</a>
+</div>
+
+
+
+
+{% endfor %}
+
+
+{% endblock %}
