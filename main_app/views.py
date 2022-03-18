@@ -15,7 +15,7 @@ def home(request):
 
 def about(request):
     return render(request, 'about.html')
-'''
+
 
 class MemoList(ListView):
     model = Memo
@@ -41,7 +41,7 @@ class MemoDelete(DeleteView):
     model = Memo
     success_url = '/memos/'
 
-'''
+
 
 
 
@@ -54,7 +54,7 @@ def posts_detail(request, post_id):
     post = Post.objects.get(id=post_id)
     return render(request, 'posts/detail.html',{'post': post})
 """
-'''
+
 
 def signup(request):
     # we'll need this for our context dictionary, in case there are no errors
@@ -83,7 +83,7 @@ def signup(request):
         'error': error_message
     }    
     return render(request, 'registration/signup.html', context)
-'''
+
 """
 def signup(request):
     error_message = ''
