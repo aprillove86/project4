@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from .models import Memo
 from django.contrib.auth import login
-
+from .filters import MemoFilter
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -21,20 +21,25 @@ class MemoList(ListView):
     template_name = 'memos/index.html'
     context_object_name = 'memos'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = MemoFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
 class MemoDetail(DetailView):
     model = Memo
     template_name = 'memos/detail.html'
 
 class MemoCreate(CreateView):
     model = Memo
-    fields = '__all__'
+    fields = ('title', 'date')
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 class MemoUpdate(UpdateView):
     model = Memo
-    fields = '__all__'
+    fields = ('title', 'date')
 
 class MemoDelete(DeleteView):
     model = Memo

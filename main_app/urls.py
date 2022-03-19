@@ -10,4 +10,5 @@ urlpatterns = [
     path('memos/<int:pk>/update/', views.MemoUpdate.as_view(), name='memos_update'),
     path('memos/<int:pk>/delete/', views.MemoDelete.as_view(), name='memos_delete'),
     path('accounts/signup/', views.signup, name='signup')
+   
 ]
