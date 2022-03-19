@@ -7,7 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swift MemOS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script defer src="{% static 'js/script.js' %}"></script>
 </head>
 <body>
@@ -16,8 +19,9 @@
             <div class="nav-wrapper">
                 <ul>
                     <li>
-                        <a href="/">&nbsp;&nbsp;Swift MemOS</a>
+                        <a href="/" class="left brand-logo">&nbsp;&nbsp;Swift MemOS</a>
                     </li>
+                <ul class="right">
                     <li><a href="{% url 'about' %}">About</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Log Out</a></li>
@@ -25,6 +29,8 @@
                     {% else %}
                     <li><a href="{% url 'login' %}">Log In</a></li>
                     <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                </ul>
+                    
                     {% endif %}
                 </ul>
             </div>
