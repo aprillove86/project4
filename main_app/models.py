@@ -24,17 +24,22 @@ class Tag(models.Model):
         return self.tag_desc
 
 class Memo(models.Model):
+
     memo_title = models.CharField(max_length=100)
     memo_create_date = models.DateField(auto_now=True)
     memo_text = models.CharField(max_length=5000, default='missing')
     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE, default='missing') #not cascading here because there could be multiple tags per memo
     org_id = models.ForeignKey(Org, on_delete=models.CASCADE, default='missing')
 
+
     def __str__(self):
         return f'Memo: {self.memo_title} from {self.memo_create_date}'
     
     def get_absolute_url(self):
         return reverse('memos_detail', kwargs={'pk': self.id})
+
+    class Meta:
+        ordering = ('-date', 'title')
 
 
 class Roles(models.Model):
