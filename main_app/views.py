@@ -23,7 +23,7 @@ def memos_index(request):
 
 
 
-class MemoList(ListView):
+class MemoList(LoginRequiredMixin, ListView):
     model = Memo
     template_name = 'memos/search.html'
     context_object_name = 'memos'
