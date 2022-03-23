@@ -16,6 +16,7 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 class MemoList(ListView):
     model = Memo
     template_name = 'memos/index.html'
@@ -29,19 +30,20 @@ class MemoList(ListView):
 class MemoDetail(DetailView):
     model = Memo
     template_name = 'memos/detail.html'
+    
 
 class MemoCreate(CreateView):
     model = Memo
-    fields = ('title', 'date')
+    fields = '__all__'
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 class MemoUpdate(UpdateView):
     model = Memo
-    fields = ('title', 'date')
+    fields = ('memo_title', 'memo_text', 'tag_desc')
 
-class MemoDelete(DeleteView):
+class MemoDelete(LoginRequiredMixin, DeleteView):
     model = Memo
     success_url = '/memos/'
 
@@ -121,6 +123,5 @@ class PostDelete(DeleteView):
 
 # Create your views here.
 """
-from django.shortcuts import render
-from django.http import HttpResponse
+
 

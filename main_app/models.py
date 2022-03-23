@@ -2,7 +2,7 @@ from time import timezone
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from datetime import datetime
+###from datetime import datetime###
 
 Roles = (
     ('U', 'General User'),
@@ -24,12 +24,12 @@ class Tag(models.Model):
         return self.tag_desc
 
 class Memo(models.Model):
-
+    
     memo_title = models.CharField(max_length=100)
     memo_create_date = models.DateField(auto_now=True)
     memo_text = models.CharField(max_length=5000, default='missing')
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE, default='missing') #not cascading here because there could be multiple tags per memo
-    org_id = models.ForeignKey(Org, on_delete=models.CASCADE, default='missing')
+    tags = models.ManyToManyField(Tag) 
+    orgs= models.ManyToManyField(Org)
 
 
     def __str__(self):
@@ -39,7 +39,7 @@ class Memo(models.Model):
         return reverse('memos_detail', kwargs={'pk': self.id})
 
     class Meta:
-        ordering = ('-date', 'title')
+        ordering = ('-memo_create_date', 'memo_title')
 
 
 class Roles(models.Model):
