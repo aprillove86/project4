@@ -5,7 +5,20 @@
 <h3>Hello, {{ user }}! </h3>
 <a href="{% url 'memos_create' %}">Add a Memo</a>
 
+
+
+
+
+    <form method="GET">
+            <table>
+                {{ filter.form }}
+            </table>
+                <button type="submit">Find</button>
+    </form>
     
+
+
+
 <hr>
 <table>
     <thead>
@@ -15,7 +28,9 @@
             <th>Action</th>
         </tr>
     </thead>
-{% for memo in memos %}
+{% for memo in filter.qs %}
+
+
 
 
 <tr>
