@@ -15,5 +15,5 @@ class MemoFilter(django_filters.FilterSet):
     class Meta:
         model = Memo
         fields = {
-            'tag_desc': ['icontains'],
+            'tags': ['icontains'],
         }

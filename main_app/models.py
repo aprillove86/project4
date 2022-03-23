@@ -28,8 +28,8 @@ class Memo(models.Model):
     memo_title = models.CharField(max_length=100)
     memo_create_date = models.DateField(auto_now=True)
     memo_text = models.CharField(max_length=5000, default='missing')
-    tags = models.ManyToManyField(Tag) 
-    orgs= models.ManyToManyField(Org)
+    tag = models.ManyToManyField(Tag) 
+    org= models.ManyToManyField(Org)
 
 
     def __str__(self):

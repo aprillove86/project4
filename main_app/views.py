@@ -16,7 +16,7 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-@login_required
+'''@login_required
 class MemoList(ListView):
     model = Memo
     template_name = 'memos/index.html'
@@ -25,7 +25,7 @@ class MemoList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = MemoFilter(self.request.GET, queryset=self.get_queryset())
-        return context
+        return context'''
 
 class MemoDetail(DetailView):
     model = Memo
@@ -41,7 +41,7 @@ class MemoCreate(CreateView):
 
 class MemoUpdate(UpdateView):
     model = Memo
-    fields = ('memo_title', 'memo_text', 'tag_desc')
+    fields = ('memo_title', 'memo_text', 'tag')
 
 class MemoDelete(LoginRequiredMixin, DeleteView):
     model = Memo
