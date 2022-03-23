@@ -16,9 +16,16 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
+def memos_index(request):
+    memos = Memo.objects.filter(user = request.user)
+    return render(request, 'memos/index.html', {'memos': memos})
+
+
+
 class MemoList(ListView):
     model = Memo
-    template_name = 'memos/index.html'
+    template_name = 'memos/search.html'
     context_object_name = 'memos'
 
     def get_context_data(self, **kwargs):
@@ -26,22 +33,22 @@ class MemoList(ListView):
         context['filter'] = MemoFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-class MemoDetail(DetailView):
+class MemoDetail(LoginRequiredMixin, DetailView):
     model = Memo
     template_name = 'memos/detail.html'
 
-class MemoCreate(CreateView):
+class MemoCreate(LoginRequiredMixin, CreateView):
     model = Memo
     fields = ('title', 'date')
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class MemoUpdate(UpdateView):
+class MemoUpdate(LoginRequiredMixin, UpdateView):
     model = Memo
     fields = ('title', 'date')
 
-class MemoDelete(DeleteView):
+class MemoDelete(LoginRequiredMixin, DeleteView):
     model = Memo
     success_url = '/memos/'
 
