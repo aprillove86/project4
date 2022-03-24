@@ -10,9 +10,9 @@
 <table>
     <thead>
         <tr>
-            <th>Item</th>
-            <th>Date</th>
-            <th>Action</th>
+            <th>Memo: {{ memo.memo_title }}</th>
+            <th>Date: {{ memo.memo_create_date }}</th>
+            
         </tr>
     </thead>
 {% for memo in memos %}
@@ -20,7 +20,7 @@
 
 <tr>
     <td>
-        <a href="{% url 'memos_detail' memo.id %}">{{ memo.title }}</a>
+        <a href="{% url 'memos_detail' memo.id %}">{{ memo.memos_title }}</a>
         
     </td>
     <td>
