@@ -3,11 +3,55 @@
 {% block content %}
 <h1>Memo Details</h1>
 
-<h3>{{ memo.title }}</h3>
-{% if perms.main_app.change_memo %}
-<a href="{% url 'memos_update' memo.id %}">Edit</a>
-{% endif %}
-{% if perms.main_app.delete_memo %}
-<a href="{% url 'memos_delete' memo.id %}">Delete</a>
-{% endif %}
+<div class='detail-card'>
+    <div class='detail-content'>
+         <h3>{{ memo.memo_title }}</h3>
+         <p>Date Created: {{ memo.memo_create_date }}</p>
+         <p>Text: {{ memo.memo_text }}</p>
+         
+    </div>
+    
+    <div class="card-action">
+        <a href="{% url 'memos_update' memo.id %}">Edit</a>
+        <a href="{% url 'memos_delete' memo.id %}">Delete</a>
+    </div>
+</div>
+
+<a href="{% url 'tags_create' %}">Create a Tag First</a>
+
+<div class="col s3">
+    <h3>Attached Tags</h3>
+    {% if memo.tags.count %}
+        {% for tag in memo.tags.all %}
+            <div class="card">
+                <span class="card-content">
+                    <h4>{{ tag.tag_desc }}</h4>
+                </span>
+            </div>
+            <div class='card-action'>
+                <form action="{% url 'assoc_tag' memo.id tag.id %}" method="POST">
+                    {%  csrf_token  %}
+                    <button type='submit' class="btn green">Add</button>
+                </form>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div>
+    <h3>Available Tags</h3>
+    {% if tags.count %}
+    {% for tag in tags %}
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">
+                <p>tag.tag_desc</p>
+            </span>
+        </div>
+
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
 {% endblock %}

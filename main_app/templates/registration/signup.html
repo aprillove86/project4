@@ -9,11 +9,11 @@
 
 <form action="{% url 'signup' %}" method="POST">
     {% csrf_token %}
-    {{ role_form.as_p }}
+    {{ roles_form.as_p }}
     {{ user_form.as_p }}
     <p>
 <label>
-    {{ role_form.is_admin }}
+    {{ roles_form.is_admin }}
     <span>I am an Admin</span>
 </label>
 </p>

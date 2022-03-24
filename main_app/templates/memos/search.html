@@ -20,12 +20,9 @@
             <table>
                 {{ filter.form }}
             </table>
-                <button type="submit" onclick="clearSearch()">Find</button>
+                <button type="submit">Find</button>
                 
     </form>
-    {% if has_filter %}
-                <a href="{%  url 'products' %}">Clear all filters</a>
-                {% endif %}
 
 
 
@@ -45,13 +42,13 @@
 
 <tr>
     <td>
-        <a href="{% url 'memos_detail' memo.id %}">{{ memo.title }}</a>
+        <a href="{% url 'memos_detail' memo.id %}">{{ memo.memo_title }}</a>
         
     </td>
     <td>
 <div>
  
-    <a href="{% url 'memos_detail' memo.id %}">{{ memo.date }}</a>
+    <a href="{% url 'memos_detail' memo.id %}">{{ memo.memo_create_date }}</a>
 </div>
 </td>
 <td>

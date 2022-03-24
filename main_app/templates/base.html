@@ -30,6 +30,8 @@
                     <li><a href="{% url 'logout' %}">Log Out</a></li>
                     <li><a href="{% url 'memos_index' %}">Home</a></li>
                     <li><a href="{% url 'memos_search' %}">Search</a></li>
+                    <li><a href="{% url 'tags_index' %}">View Tags</a></li>
+                    <li><a href="{% url 'tags_create' %}">Add New Tag</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}">Log In</a></li>
                     <li><a href="{% url 'signup' %}">Sign Up</a></li>
@@ -44,6 +46,8 @@
             <li><a href="{% url 'logout' %}">Log Out</a></li>
             <li><a href="{% url 'memos_index' %}">Home</a></li>
             <li><a href="{% url 'memos_search' %}">Search</a></li>
+            <li><a href="{% url 'tags_index' %}">View Tags</a></li>
+            <li><a href="{% url 'tags_create' %}">Add New Tag</a></li>
             {% else %}
             <li><a href="{% url 'login' %}">Log In</a></li>
             <li><a href="{% url 'signup' %}">Sign Up</a></li>

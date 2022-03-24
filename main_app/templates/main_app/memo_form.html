@@ -17,9 +17,9 @@
 
 <input type="submit" value="{% if object %} Edit {% else %} Add Memo {% endif %}">
 {% if object %}
-<a href="{% url 'memos_detail' object.id %}">Cancel</a>
+    <a href="{% url 'memos_detail' object.id %}">Cancel</a>
 {% else %}
-<a href="{% url 'memos_index' %}">Cancel</a>
+    <a href="{% url 'memos_index' %}">Cancel</a>
 {% endif%}
 
 

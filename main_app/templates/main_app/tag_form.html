@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if object %}
+<h1>Edit {{ object.name }}'s Details </h1>
+{% else %}
+<h1>Add New Tag</h1>
+{% endif %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+<table>
+    {{ form.as_table }}
+</table>
+<input type="submit" class="btn blue" value="{% if object %} Edit {% else %} Add Tag {% endif %}">
+
+{% if object%}
+<a class="btn red" href="{% url 'tags_detail' object.id %}">Cancel</a>
+{% else %}
+<a class="btn red" href="{% url 'memos_index' %}">Cancel</a>
+{% endif %}
+
+</form>
+
+
+{% endblock %}

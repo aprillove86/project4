@@ -5,12 +5,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Permission
 
-from .models import Memo
+from .models import Memo, Tag
 from django.contrib.auth import login
 from .filters import MemoFilter
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from .forms import RoleForm
+from .forms import RolesForm
 
 def home(request):
     return render(request, 'home.html')
@@ -35,25 +35,42 @@ class MemoList(LoginRequiredMixin, ListView):
         context['filter'] = MemoFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
+# def memos_detail(request, memos_id):
+#     memos = Memo.objects.get(id=memos_id)
+
+#     tag_memos_dont_have = Tag.objects.exclude(id__in = memos.tag.all().values_list('id'))
+
+#     return render(request, 'memos/detail.html', {
+#         'memos': memos,
+#         'tag': tag_memos_dont_have
+#     })
+
 class MemoDetail(LoginRequiredMixin, DetailView):
     model = Memo
     template_name = 'memos/detail.html'
 
-class MemoCreate(LoginRequiredMixin, CreateView):
+class MemoCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'main_app.add_memo'
     model = Memo
-    fields = ('title', 'date')
+    fields = ('memo_title', 'memo_create_date', 'memo_text')
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class MemoUpdate(LoginRequiredMixin, UpdateView):
+class MemoUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'main_app.change_memo'
     model = Memo
-    fields = ('title', 'date')
+    fields = ('memo_title', 'memo_create_date', 'memo_text')
 
-class MemoDelete(LoginRequiredMixin, DeleteView):
+class MemoDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'main_app.delete_memo'
     model = Memo
     success_url = '/memos/'
 
+@login_required
+def assoc_tag(request, memos_id, tag_id):
+    Memo.objects.get(id=memos_id).tag.add(tag_id)
+    return redirect('memos_detail', memos_id=memos_id)
 
 
 
@@ -76,18 +93,18 @@ def signup(request):
     if request.method == 'POST':
         # capture form inputs
         user_form = UserCreationForm(request.POST)
-        role_form = RoleForm(request.POST)
+        roles_form = RolesForm(request.POST)
         # validate form inputs (make sure everything we need is there)
-        if user_form.is_valid() and role_form.is_valid:
+        if user_form.is_valid() and roles_form.is_valid:
             # save the new user to the database
             user = user_form.save()
-            role = role_form.save(commit=False)
+            role = roles_form.save(commit=False)
             role.user = user
             role.save()
             # log the new user in
             login(request, user)
             # add permissions to admin user
-            if user.role.is_admin:
+            if user.roles.is_admin:
                 user.user_permissions.add(Permission.objects.get(codename='add_memo'))
                 user.user_permissions.add(Permission.objects.get(codename='change_memo'))
                 user.user_permissions.add(Permission.objects.get(codename='delete_memo'))
@@ -100,47 +117,32 @@ def signup(request):
     # If GET request
         # render a signup page with a blank user creation form
     user_form = UserCreationForm()
-    role_form = RoleForm()  
+    roles_form = RolesForm()  
     context = {
         'user_form': user_form,
         'error': error_message,
-        'role_form': role_form
+        'roles_form': roles_form
     }    
     return render(request, 'registration/signup.html', context)
 
-"""
-def signup(request):
-    error_message = ''
-    if request.method "Post":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index')
-        else:
-            error_message = 'invalid sign-up, please try again'
-    form = UserCreationForm()
-    context = { 'form': form, 'error_message': error_message }
-    return render(request, 'registration/signup.html', context)
+class TagCreate(LoginRequiredMixin, CreateView):
+    model = Tag
+    fields = ('tag_desc',)
 
-class PostCreate(LoginRequiredMixin, CreateView):
-    model = Post
-    fields = ('')
+class TagUpdate(LoginRequiredMixin, UpdateView):
+    model = Tag
+    fields = ('tag_desc',)
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+class TagDelete(LoginRequiredMixin, DeleteView):
+    model = Tag
+    success_url = '/memos/'
 
-class PostUpdate(LoginRequiredMixin, UpdateView):
-    model = Post
-    fields = ('')
+class TagList(LoginRequiredMixin, ListView):
+    model = Tag
+    template_name = 'tags/index.html'
 
-class PostDelete(DeleteView):
-    model = Post
-    success_url = '/posts'
+class TagDetail(LoginRequiredMixin, DetailView):
+    model = Tag 
+    template_name = 'tags/detail.html'
 
-# Create your views here.
-"""
-from django.shortcuts import render
-from django.http import HttpResponse
 

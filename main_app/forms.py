@@ -1,9 +1,9 @@
 from django.forms import ModelForm
-from .models import Role
+from .models import Roles
 
-class RoleForm(ModelForm):
+class RolesForm(ModelForm):
     class Meta:
-        model = Role
+        model = Roles
         fields = ['is_admin']
         labels = {
             'is_admin': ''
