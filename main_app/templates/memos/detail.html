@@ -5,10 +5,35 @@
 
 <div class='detail-card'>
     <div class='detail-content'>
-    <h3>{{ memo.memo_title }}</h3>
+         <h3>{{ memo.memo_title }}</h3>
+         <p>Memo: {{ memo.memo_text }}</p>
+         <p>Date Created: {{ memo.memo_create_date }}</p>
+    </div>
     
+    <div class="card-action">
+        <a href="{% url 'memos_update' memos.id %}">Edit</a>
+        <a href="{% url 'memos_delete' memos.id %}">Delete</a>
+    </div>
+</div>
 
-<a href="{% url 'memos_update' memo.id %}">Edit</a>
-<a href="{% url 'memos_delete' memo.id %}">Delete</a>
+<div class="col s3">
+    <h3>Tags to be Attached</h3>
+    {% if tags.count %}
+        {% for tag in tags %}
+            <div class="card">
+                <span class="card-content">
+                    <h4>{{ tags.tag_desc }}</h4>
+                </span>
+            </div>
+            <div class='card-action'>
+                <form action="{% url 'assoc_tag' memo.id tag.id %}" method="POST">
+                    {%  csrf_token  %}
+                    <button type='submit' class="btn green">Add</button>
+                </form>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
 
 {% endblock %}

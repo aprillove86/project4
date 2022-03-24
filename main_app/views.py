@@ -3,7 +3,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
-from .models import Memo
+from .models import Memo, Tag
 from django.contrib.auth import login
 from .filters import MemoFilter
 from django.contrib.auth.decorators import login_required
@@ -32,27 +32,35 @@ class MemoList(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['filter'] = MemoFilter(self.request.GET, queryset=self.get_queryset())
         return context
+def memos_detail(request, memos_id):
+    memos = Memo.objects.get(id=memos_id)
 
-class MemoDetail(LoginRequiredMixin, DetailView):
-    model = Memo
-    template_name = 'memos/detail.html'
-    
+    tag_memos_dont_have = Tag.objects.exclude(id__in = memos.tag.all().values_list('id'))
+
+    return render(request, 'memos/detail.html', {
+        'memos': memos,
+        'tag': tag_memos_dont_have
+    })
 
 class MemoCreate(LoginRequiredMixin, CreateView):
     model = Memo
-    fields = '__all__'
+    fields = ('memo_title', 'memo_text', 'memo_create_date')
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 class MemoUpdate(LoginRequiredMixin, UpdateView):
     model = Memo
-    fields = ('memo_title', 'memo_text', 'tag')
+    fields = ('memo_title', 'memo_create_date', 'memo_text', 'tag_id', 'org_id')
 
 class MemoDelete(LoginRequiredMixin, DeleteView):
     model = Memo
     success_url = '/memos/'
 
+@login_required
+def assoc_tag(request, memos_id, tag_id):
+    Memo.objects.get(id=memos_id).tag.add(tag_id)
+    return redirect('memos_detail', memos_id=memos_id)
 
 
 
@@ -96,38 +104,24 @@ def signup(request):
     }    
     return render(request, 'registration/signup.html', context)
 
-"""
-def signup(request):
-    error_message = ''
-    if request.method "Post":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index')
-        else:
-            error_message = 'invalid sign-up, please try again'
-    form = UserCreationForm()
-    context = { 'form': form, 'error_message': error_message }
-    return render(request, 'registration/signup.html', context)
+class TagCreate(LoginRequiredMixin, CreateView):
+    model = Tag
+    fields = ('tag_desc')
 
-class PostCreate(LoginRequiredMixin, CreateView):
-    model = Post
-    fields = ('')
+class TagUpdate(LoginRequiredMixin, UpdateView):
+    model = Tag
+    fields = ('tag_desc')
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+class TagDelete(LoginRequiredMixin, DeleteView):
+    model = Tag
+    success_url = '/memos/'
 
-class PostUpdate(LoginRequiredMixin, UpdateView):
-    model = Post
-    fields = ('')
+class TagList(LoginRequiredMixin, ListView):
+    model = Tag
+    template_name = 'tag/index.html'
 
-class PostDelete(DeleteView):
-    model = Post
-    success_url = '/posts'
-
-# Create your views here.
-"""
+class TagDetail(LoginRequiredMixin, DetailView):
+    model = Tag 
+    template_name = 'tag/detail.html'
 
 

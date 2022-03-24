@@ -22,20 +22,23 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.tag_desc
+    def get_absolute_url(self):
+        return reverse("tag_detail", kwargs={"pk": self.pk})
+    
 
 class Memo(models.Model):
-    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     memo_title = models.CharField(max_length=100)
-    memo_create_date = models.DateField(auto_now=True)
-    memo_text = models.CharField(max_length=5000, default='missing')
+    memo_create_date = models.DateField('date created')
+    memo_text = models.CharField(max_length=5000, default='')
     tag = models.ManyToManyField(Tag) 
     org= models.ManyToManyField(Org)
 
     def __str__(self):
-        return f' This memo is about {self.title}'
+        return self.memo_title
     
     def get_absolute_url(self):
-        return reverse('memos_detail', kwargs={'pk': self.id})
+        return reverse('memos_detail', kwargs={'memos_id': self.id})
 
     class Meta:
 
