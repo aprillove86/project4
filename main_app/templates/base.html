@@ -9,6 +9,7 @@
     <title>Swift MemOS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script defer src="{% static 'js/script.js' %}"></script>
@@ -21,7 +22,9 @@
                     <li>
                         <a href="/" class="left brand-logo">&nbsp;&nbsp;Swift MemOS</a>
                     </li>
-                <ul class="right">
+                </ul>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
                     <li><a href="{% url 'about' %}">About</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Log Out</a></li>
@@ -30,12 +33,23 @@
                     {% else %}
                     <li><a href="{% url 'login' %}">Log In</a></li>
                     <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                </ul>
-                    
                     {% endif %}
                 </ul>
             </div>
         </nav>
+
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="{% url 'about' %}">About</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            <li><a href="{% url 'memos_index' %}">Home</a></li>
+            <li><a href="{% url 'memos_search' %}">Search</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Log In</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            {% endif %}
+        </ul>
+
     </header>
     <main class="container">
         {% block content %}

@@ -9,13 +9,16 @@
 
 
 
-    <form method="GET">
+    <form method="GET" id="search_memos">
             <table>
                 {{ filter.form }}
             </table>
-                <button type="submit">Find</button>
+                <button type="submit" onclick="clearSearch()">Find</button>
+                
     </form>
-    
+    {% if has_filter %}
+                <a href="{%  url 'products' %}">Clear all filters</a>
+                {% endif %}
 
 
 
@@ -41,7 +44,7 @@
     <td>
 <div>
  
-    
+    <a href="{% url 'memos_detail' memo.id %}">{{ memo.date }}</a>
 </div>
 </td>
 <td>
