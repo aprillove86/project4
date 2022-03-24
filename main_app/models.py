@@ -2,7 +2,7 @@ from time import timezone
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-###from datetime import datetime###
+
 
 Roles = (
     ('U', 'General User'),
@@ -31,14 +31,14 @@ class Memo(models.Model):
     tag = models.ManyToManyField(Tag) 
     org= models.ManyToManyField(Org)
 
-
     def __str__(self):
-        return f'Memo: {self.memo_title} from {self.memo_create_date}'
+        return f' This memo is about {self.title}'
     
     def get_absolute_url(self):
         return reverse('memos_detail', kwargs={'pk': self.id})
 
     class Meta:
+
         ordering = ('-memo_create_date', 'memo_title')
 
 
