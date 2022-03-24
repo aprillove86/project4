@@ -4,8 +4,10 @@
 <h1>Memo Details</h1>
 
 <h3>{{ memo.title }}</h3>
-
+{% if perms.main_app.change_memo %}
 <a href="{% url 'memos_update' memo.id %}">Edit</a>
+{% endif %}
+{% if perms.main_app.delete_memo %}
 <a href="{% url 'memos_delete' memo.id %}">Delete</a>
-
+{% endif %}
 {% endblock %}

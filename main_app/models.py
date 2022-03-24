@@ -1,7 +1,7 @@
 from time import timezone
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 
 class Memo(models.Model):
     title = models.CharField(max_length=100)
@@ -16,3 +16,7 @@ class Memo(models.Model):
 
     class Meta:
         ordering = ('-date', 'title')
+
+class Role(models.Model):
+    is_admin = models.BooleanField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)

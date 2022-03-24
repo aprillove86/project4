@@ -3,12 +3,14 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Permission
+
 from .models import Memo
 from django.contrib.auth import login
 from .filters import MemoFilter
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from .forms import RoleForm
 
 def home(request):
     return render(request, 'home.html')
@@ -73,13 +75,22 @@ def signup(request):
     # check for a POST request (as opposed to a GET request)
     if request.method == 'POST':
         # capture form inputs
-        form = UserCreationForm(request.POST)
+        user_form = UserCreationForm(request.POST)
+        role_form = RoleForm(request.POST)
         # validate form inputs (make sure everything we need is there)
-        if form.is_valid():
+        if user_form.is_valid() and role_form.is_valid:
             # save the new user to the database
-            user = form.save()
+            user = user_form.save()
+            role = role_form.save(commit=False)
+            role.user = user
+            role.save()
             # log the new user in
             login(request, user)
+            # add permissions to admin user
+            if user.role.is_admin:
+                user.user_permissions.add(Permission.objects.get(codename='add_memo'))
+                user.user_permissions.add(Permission.objects.get(codename='change_memo'))
+                user.user_permissions.add(Permission.objects.get(codename='delete_memo'))
             # redirect to the memos index page
             return redirect('memos_index')
         # if form is NOT valid
@@ -88,10 +99,12 @@ def signup(request):
             # redirect to signup page (/accounts/signup) and display error message
     # If GET request
         # render a signup page with a blank user creation form
-    form = UserCreationForm()  
+    user_form = UserCreationForm()
+    role_form = RoleForm()  
     context = {
-        'form': form,
-        'error': error_message
+        'user_form': user_form,
+        'error': error_message,
+        'role_form': role_form
     }    
     return render(request, 'registration/signup.html', context)
 
