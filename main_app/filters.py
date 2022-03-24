@@ -1,6 +1,6 @@
 import django_filters
 from django_filters import DateFilter
-from .models import Memo 
+from .models import Memo
 
 class MemoFilter(django_filters.FilterSet):
 
@@ -15,6 +15,6 @@ class MemoFilter(django_filters.FilterSet):
     class Meta:
         model = Memo
         fields = {
-            'tag': ['icontains'],
+            'tags': ['icontains'],
             'memo_title': ['icontains'],
         }
