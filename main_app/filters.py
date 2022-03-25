@@ -15,6 +15,5 @@ class MemoFilter(django_filters.FilterSet):
     class Meta:
         model = Memo
         fields = {
-            'tag': ['icontains'],
             'memo_title': ['icontains'],
         }

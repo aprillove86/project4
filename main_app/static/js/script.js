@@ -1,4 +1,4 @@
-const dateEl = document.getElementById('id_date');
+const dateEl = document.getElementById('id_memo_create_date');
 const afterEl = document.getElementById('id_start_date');
 const beforeEl = document.getElementById('id_end_date');
 
@@ -23,3 +23,4 @@ M.Datepicker.init(beforeEl, {
     setDefaultDate: false,
     autoClose: true
 });
+

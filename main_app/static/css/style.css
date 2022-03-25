@@ -2,7 +2,10 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background-color: #FFE4E4;
+    background-color: #0b2027;
+    color:#f18f01;
+    
+    text-align: center;
 }
 
 main {
@@ -10,10 +13,76 @@ main {
 }
 
 nav {
-    background-color: #93B5E1;
+    background-color: #8ea604;
+    text-shadow: none;
+    color: white;
+}
+header {
+    text-shadow: white 1px 2px 5px;
 }
 
 footer {
     padding-top: 0;
     text-align: right;
+}
+
+h2 {
+    text-shadow:#f18f01 1px 2px 5px;
+}
+
+img {
+    border-radius: 10px;
+}
+
+.home-image{
+    border-radius: 20px;
+    padding: 10px;
+    
+    align-content: center;
+}
+
+.info {
+    text-shadow: none;
+}
+
+
+.reg-container {
+    background-color: white;
+}
+
+.home {
+    text-align: center;
+}
+
+.card-content {
+    background: rgb(4,139,168);
+    background: linear-gradient(180deg, #048ba8 15%, #048ba8 25%, rgba(4,139,168,0.36738445378151263));
+    color: #f18f01;
+    font-size: 20px;
+    text-shadow: none;
+}
+.card-title {
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    text-shadow: #f18f01 1px 2px 10px;
+}
+.detail-card {
+    background: #048ba8;
+    background: linear-gradient(180deg, #048ba8 15%, #048ba8 25%,  rgba(4,139,168,0.36738445378151263));
+    box-shadow: 0 4px 0 whitesmoke;
+}
+
+.material-icons {
+    color: #f18f01;
+}
+
+.add-icon {
+    color: #8ea604;
+}
+
+p {
+    color: #f18f01;
+    font-size: 20px;
+    text-shadow: none;
 }
