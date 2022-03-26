@@ -23,7 +23,7 @@
 <table>
     <thead>
         <tr>
-            <th>Item</th>
+            <th>Memo</th>
             <th>Date</th>
             <th>Action</th>
         </tr>
@@ -35,12 +35,13 @@
 
 <tr>
     <td>
-        <a href="{% url 'memos_detail' memo.id %}">{{ memo.title }}</a>
+        <a href="{% url 'memos_detail' memo.id %}">{{ memo.memo_title }}</a>
         
     </td>
     <td>
 <div>
- 
+    <a href="{% url 'memos_detail' memo.id %}">{{ memo.memo_create_date }}</a>
+        
     
 </div>
 </td>

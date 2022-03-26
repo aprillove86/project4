@@ -6,14 +6,25 @@
 {% if error %}
 <h5>{{ error }}</h5>
 {% endif %}
+<div class="reg-container">
+    <form action="{% url 'signup' %}" type="text" class="info" method="POST">
+        {% csrf_token %}
+        {{ roles_form.as_p }}
+        {{ user_form.as_p }}
+        <p>
+            <label>
+                {{ roles_form.is_admin }}
+                <span>I am an Admin</span>
+            </label>
+        </p>
+            <input type="checkbox" />
+        <br />
+        <br />
 
-<form action="{% url 'signup' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    
-    <button> Sign Up</button>
-</form>
 
+        <button> Sign Up</button>
+    </form>
+</div>
 
 
 {% endblock %}

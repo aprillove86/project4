@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Are you sure you want to remove this item?</h1>
 
-<form action="" method="POST">
+<form action="" class="info" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
 

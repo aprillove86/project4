@@ -15,25 +15,26 @@
 </head>
 <body>
     <header>
+        
         <nav>
             <div class="nav-wrapper">
                 <ul>
-                    <li>
-                        <a href="/" class="left brand-logo">&nbsp;&nbsp;Swift MemOS</a>
-                    </li>
-                <ul class="right">
-                    <li><a href="{% url 'about' %}">About</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Log Out</a></li>
-                    <li><a href="{% url 'memos_index' %}">Home</a></li>
-                    <li><a href="{% url 'memos_search' %}">Search</a></li>
-                    {% else %}
-                    <li><a href="{% url 'login' %}">Log In</a></li>
-                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                    <li><a href="{% url 'home' %}" class='left brand-logo'>&nbsp;&nbsp;Swift MemOS</a></li>   
                 </ul>
-                    
-                    {% endif %}
-                </ul>
+                    <ul class='right hide-on-med-and-down'>
+                       
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">Log Out</a></li>
+                        <li><a href="{% url 'memos_index' %}">Your MemOS</a></li>
+                        <li><a href="{% url 'tags_index' %}">MemOS Tags</a></li>
+                        <li><a href="{% url 'tags_create' %}">Create/Add Tags</a></li>  
+                        <li><a href="{% url 'memos_search' %}"><i class='material-icons'>search</i></a></li>   
+                        {% else %}
+                        <li><a href="{% url 'login' %}">Log In</a></li>
+                        <li><a href="{% url 'signup' %}">Sign Up</a></li>                                                 
+                        {% endif %}
+                    </ul>
             </div>
         </nav>
     </header>

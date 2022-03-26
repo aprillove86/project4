@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Remove Tag?</h1>
+
+
+<h3>Are you sure you want to remove the <span class="teal-text">{{ object.tag_desc }}</span>?</h3>
+
+
+<form action="" class="info"  method="POST">
+    {% csrf_token %}
+    <input class="btn red" type="submit" value="Yes - Remove">
+    <a class="btn blue" href="{% url 'memos_detail' object.id %}">Cancel</a>
+
+</form>
+
+
+{% endblock %}
